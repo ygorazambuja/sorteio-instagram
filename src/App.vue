@@ -11,6 +11,8 @@ const isLoading = ref(true);
 const winnersCount = ref(1);
 const usernameSearch = ref("");
 const winners = ref([]);
+const isDrawing = ref(false);
+const suspenseName = ref("");
 
 function parseCsv(text) {
   const rows = [];
@@ -199,7 +201,15 @@ const filteredParticipants = computed(() => {
   );
 });
 
-function drawWinners() {
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function drawWinners() {
+  if (isDrawing.value) {
+    return;
+  }
+
   const count = Math.max(1, Number(winnersCount.value) || 1);
   const available = [...participants.value];
   const selected = [];
@@ -219,6 +229,26 @@ function drawWinners() {
     selected.push(winner);
   }
 
+  winners.value = [];
+  isDrawing.value = true;
+
+  const pool = participants.value;
+  const totalDuration = 3000;
+  const startInterval = 60;
+  const endInterval = 320;
+  const startTime = performance.now();
+  let currentInterval = startInterval;
+
+  while (performance.now() - startTime < totalDuration) {
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    suspenseName.value = pick ? pick.username : "";
+    await delay(currentInterval);
+    const progress = Math.min(1, (performance.now() - startTime) / totalDuration);
+    currentInterval = startInterval + (endInterval - startInterval) * progress * progress;
+  }
+
+  suspenseName.value = "";
+  isDrawing.value = false;
   winners.value = selected;
 }
 
@@ -267,10 +297,27 @@ onMounted(loadCsvAsset);
         </label>
       </div>
 
-      <button class="primary-button" type="button" @click="drawWinners">Sortear</button>
+      <button
+        class="primary-button"
+        type="button"
+        :disabled="isDrawing"
+        @click="drawWinners"
+      >
+        {{ isDrawing ? "Sorteando..." : "Sortear" }}
+      </button>
     </section>
 
-    <section v-if="winners.length" class="winners">
+    <section v-if="isDrawing" class="suspense" aria-live="polite">
+      <span class="suspense-label">Sorteando</span>
+      <div class="suspense-stage">
+        <span class="suspense-name" :key="suspenseName">@{{ suspenseName || "..." }}</span>
+      </div>
+      <div class="suspense-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </section>
+
+    <section v-if="winners.length && !isDrawing" class="winners">
       <h2>Resultado</h2>
       <ol>
         <li v-for="winner in winners" :key="winner.username">
