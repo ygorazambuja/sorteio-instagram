@@ -1,0 +1,20 @@
+[project]
+name = "sorteio-instagram"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "instaloader>=4.15.1",
+]
+
+[project.scripts]
+instagram-comments = "instagram_comments:main"
+instagram-sorteio = "instagram_raffle:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["instagram_comments.py", "instagram_raffle.py"]
