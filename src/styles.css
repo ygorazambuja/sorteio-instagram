@@ -184,7 +184,8 @@ h2 {
 
 .draw-panel,
 .table-panel,
-.winners {
+.winners,
+.source-panel {
   margin-top: 16px;
 }
 
@@ -363,6 +364,42 @@ tbody tr:hover {
   background: #fff0dc;
 }
 
+.source-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.source-panel h2 {
+  margin-bottom: 8px;
+}
+
+.source-panel p {
+  max-width: 620px;
+  margin-bottom: 0;
+  color: var(--color-gray-700);
+  line-height: 1.6;
+}
+
+.source-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 12px 20px;
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  letter-spacing: 0;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.source-link:hover {
+  background: #fff0dc;
+}
+
 @media (min-width: 700px) {
   .app-shell {
     padding: 34px 24px 56px;
@@ -396,5 +433,10 @@ tbody tr:hover {
   .primary-button {
     width: auto;
     min-width: 220px;
+  }
+
+  .source-panel {
+    grid-template-columns: 1fr auto;
+    align-items: center;
   }
 }

@@ -322,5 +322,23 @@ onMounted(loadCsvAsset);
         </table>
       </div>
     </section>
+
+    <section class="panel source-panel">
+      <div>
+        <h2>Código fonte</h2>
+        <p>
+          O código fonte e todos os arquivos usados neste sorteio estão salvos no
+          repositório do projeto.
+        </p>
+      </div>
+      <a
+        class="source-link"
+        href="https://github.com/ygorazambuja/sorteio-instagram"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Abrir repositório
+      </a>
+    </section>
   </main>
 </template>
