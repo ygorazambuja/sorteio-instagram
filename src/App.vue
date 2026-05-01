@@ -289,7 +289,7 @@ onMounted(loadCsvAsset);
       </div>
     </section>
 
-    <section v-if="participants.length" class="panel draw-panel">
+    <section v-if="participants.length && !winners.length && !isDrawing" class="panel draw-panel">
       <div class="field-row">
         <label>
           <span>Ganhadores</span>
